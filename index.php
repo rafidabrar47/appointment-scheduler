@@ -36,14 +36,16 @@ switch ($action) {
         include 'views/doctor_dashboard.php';
         break;
 
-    case 'dashboard_patient':
-        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'patient') {
-            header("Location: index.php?action=login");
-            exit;
-        }
-        // We haven't built this view yet, so we show a placeholder
-        echo "<h1>Patient Dashboard (Coming Soon)</h1><a href='index.php?action=logout'>Logout</a>";
-        break;
+  case 'dashboard_patient':
+    if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'patient') {
+        header("Location: index.php?action=login");
+        exit;
+    }
+    require_once 'models/Appointment.php';
+    $apptModel = new Appointment();
+    $myAppointments = $apptModel->getAppointmentsByPatient($_SESSION['user_id']);
+    include 'views/patient_dashboard.php';
+    break;
         
     case 'logout':
         session_destroy();
