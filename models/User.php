@@ -28,6 +28,17 @@ class User {
         return false;
     }
 
+    // Get list of all doctors with their specialization
+    public function getAllDoctors() {
+        $query = "SELECT u.user_id, u.full_name, p.specialization 
+                  FROM users u 
+                  JOIN doctor_profiles p ON u.user_id = p.user_id 
+                  WHERE u.role = 'doctor'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Register New User (We will need this later)
     public function register($name, $email, $password, $role) {
         $query = "INSERT INTO " . $this->table . " (full_name, email, password_hash, role) VALUES (:name, :email, :password, :role)";
