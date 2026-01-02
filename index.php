@@ -19,11 +19,16 @@ switch ($action) {
         break;
 
     case 'dashboard_doctor':
-        // Security Check: Is user logged in AND a doctor?
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'doctor') {
             header("Location: index.php?action=login");
             exit;
         }
+        
+        // Fetch Appointments
+        require_once 'models/Appointment.php';
+        $apptModel = new Appointment();
+        $appointments = $apptModel->getAppointmentsByDoctor($_SESSION['user_id']);
+
         include 'views/doctor_dashboard.php';
         break;
 

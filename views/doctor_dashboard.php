@@ -35,23 +35,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>10:00 AM</td>
-                        <td>John Doe</td>
-                        <td>Fever & Flu</td>
-                        <td><span class="status-badge status-pending">Pending</span></td>
-                        <td>
-                            <button style="color:green;">Approve</button> 
-                            <button style="color:red;">Reject</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>11:30 AM</td>
-                        <td>Jane Smith</td>
-                        <td>Dental Checkup</td>
-                        <td><span class="status-badge status-confirmed">Confirmed</span></td>
-                        <td>-</td>
-                    </tr>
+                    <?php if (count($appointments) > 0): ?>
+                        <?php foreach ($appointments as $appt): ?>
+                            <tr>
+                                <td><?php echo date("h:i A", strtotime($appt['appointment_time'])); ?></td>
+                                <td>
+                                    <?php echo htmlspecialchars($appt['patient_name']); ?>
+                                    <br>
+                                    <small style="color:#888;"><?php echo htmlspecialchars($appt['patient_email']); ?></small>
+                                </td>
+                                <td>General Checkup</td> <td>
+                                    <?php 
+                                        $statusClass = 'status-' . $appt['status'];
+                                        echo "<span class='status-badge $statusClass'>" . ucfirst($appt['status']) . "</span>"; 
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php if ($appt['status'] == 'pending'): ?>
+                                        <a href="index.php?action=update_status&id=<?php echo $appt['appointment_id']; ?>&status=confirmed" style="color:green; font-weight:bold; margin-right:10px;">Approve</a>
+                                        <a href="index.php?action=update_status&id=<?php echo $appt['appointment_id']; ?>&status=rejected" style="color:red; font-weight:bold;">Reject</a>
+                                    <?php else: ?>
+                                        -
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="5" style="text-align:center;">No appointments found.</td></tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
 
