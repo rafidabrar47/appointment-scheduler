@@ -37,19 +37,40 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Oct 24, 2025</td>
-                        <td>10:00 AM</td>
-                        <td>Dr. Adnan Ratul</td>
-                        <td><span class="status-badge status-pending">Pending</span></td>
-                    </tr>
-                    <tr>
-                        <td>Sep 12, 2025</td>
-                        <td>11:30 AM</td>
-                        <td>Dr. Sarah Khan</td>
-                        <td><span class="status-badge status-confirmed">Confirmed</span></td>
-                    </tr>
+<tbody>
+                    <?php if (!empty($myAppointments)): ?>
+                        <?php foreach ($myAppointments as $appt): ?>
+                            <tr>
+                                <td>
+                                    <?php echo date("M d, Y", strtotime($appt['appointment_date'])); ?>
+                                </td>
+                                
+                                <td>
+                                    <?php echo date("h:i A", strtotime($appt['appointment_time'])); ?>
+                                </td>
+
+                                <td>
+                                    <strong><?php echo htmlspecialchars($appt['doctor_name']); ?></strong>
+                                </td>
+
+                                <td>
+                                    <?php 
+                                        // Create a dynamic class name (e.g., status-confirmed)
+                                        $statusClass = 'status-' . $appt['status'];
+                                        
+                                        // Display the status with the correct color
+                                        echo "<span class='status-badge $statusClass'>" . ucfirst($appt['status']) . "</span>"; 
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="4" style="text-align:center; color:#888; padding: 20px;">
+                                No appointments found. Click "Book New" to start!
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

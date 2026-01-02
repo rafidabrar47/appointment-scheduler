@@ -46,6 +46,23 @@ class Appointment {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // Get all appointments for a specific PATIENT
+public function getAppointmentsByPatient($patient_id) {
+    $query = "SELECT 
+                a.appointment_date, 
+                a.appointment_time, 
+                a.status,
+                u.full_name as doctor_name
+              FROM appointments a
+              JOIN users u ON a.doctor_id = u.user_id
+              WHERE a.patient_id = :patient_id
+              ORDER BY a.appointment_date DESC";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':patient_id', $patient_id);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
     // Count pending appointments for the banner
     public function countPending($doctor_id) {
         $query = "SELECT COUNT(*) as total FROM " . $this->table . " 
