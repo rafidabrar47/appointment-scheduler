@@ -46,6 +46,22 @@ switch ($action) {
     $myAppointments = $apptModel->getAppointmentsByPatient($_SESSION['user_id']);
     include 'views/patient_dashboard.php';
     break;
+
+    // --- Add these inside the switch($action) block ---
+
+    case 'doctor_availability':
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'doctor') {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        include 'views/doctor_availability.php';
+        break;
+
+    case 'availability_submit':
+        require_once 'controllers/AvailabilityController.php';
+        $avController = new AvailabilityController();
+        $avController->add();
+        break;
         
     case 'logout':
         session_destroy();
