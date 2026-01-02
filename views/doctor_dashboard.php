@@ -19,8 +19,9 @@
 
         <div class="main-content">
             <div class="welcome-banner">
-                <h2>Welcome, Dr. Ratul!</h2>
-                <p>You have 3 pending appointments today.</p>
+                <h2>Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?>!</h2>
+                
+                <p>You have <strong><?php echo $pendingCount; ?></strong> pending appointments.</p>
             </div>
 
             <h3 class="section-title">Today's Schedule</h3>

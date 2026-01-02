@@ -24,10 +24,14 @@ switch ($action) {
             exit;
         }
         
-        // Fetch Appointments
         require_once 'models/Appointment.php';
         $apptModel = new Appointment();
+        
+        // 1. Get the list of appointments (You already have this)
         $appointments = $apptModel->getAppointmentsByDoctor($_SESSION['user_id']);
+        
+        // 2. Get the specific count of PENDING ones (NEW LINE)
+        $pendingCount = $apptModel->countPending($_SESSION['user_id']);
 
         include 'views/doctor_dashboard.php';
         break;
@@ -48,6 +52,18 @@ switch ($action) {
 
     case 'register':
         include 'views/register.php';
+        break;
+
+    case 'update_status':
+        // Check if user is logged in as doctor (Security)
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'doctor') {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        
+        require_once 'controllers/AppointmentController.php';
+        $apptController = new AppointmentController();
+        $apptController->updateStatus();
         break;
 
     default:
