@@ -68,6 +68,21 @@ switch ($action) {
         $apptController->updateStatus();
         break;
 
+    case 'book_appointment':
+        // Security check
+        if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'patient') {
+            header("Location: index.php?action=login");
+            exit;
+        }
+
+        // Get Doctors for the dropdown
+        require_once 'models/User.php';
+        $userModel = new User();
+        $doctors = $userModel->getAllDoctors();
+
+        include 'views/book_appointment.php';
+        break;
+
     default:
         echo "404 - Page Not Found";
         break;
