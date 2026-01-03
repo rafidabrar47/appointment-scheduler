@@ -99,6 +99,12 @@ switch ($action) {
         include 'views/book_appointment.php';
         break;
 
+    case 'api_get_slots':
+        require_once 'controllers/AjaxController.php';
+        $ajax = new AjaxController();
+        $ajax->getSlots();
+        break;    
+
     default:
         echo "404 - Page Not Found";
         break;

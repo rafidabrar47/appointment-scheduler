@@ -24,7 +24,7 @@
             </div>
 
             <div style="margin-bottom: 2rem;">
-                <button class="btn-primary" style="width: auto;">+ Book New Appointment</button>
+                <button class="btn-primary" style="width: auto;" onclick="window.location.href='index.php?action=book_appointment'">+ Book New Appointment</button>
             </div>
 
             <h3 class="section-title">My Appointments</h3>
