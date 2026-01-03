@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Doctor Dashboard - TechSpace</title>
     <link rel="stylesheet" href="assets/css/style.css">
+
 </head>
 <body> <style>body { display: block; }</style> 
 
@@ -15,6 +16,7 @@
             <a href="#">Appointments</a>
             <a href="#">Patients</a>
             <a href="index.php?action=logout" class="logout-btn">Logout</a>
+            <a href="index.php?action=doctor_availability">My Schedule</a>
         </div>
 
         <div class="main-content">
