@@ -105,6 +105,12 @@ switch ($action) {
         $ajax->getSlots();
         break;    
 
+    case 'book_submit':
+        require_once 'controllers/AppointmentController.php';
+        $apptController = new AppointmentController();
+        $apptController->book();
+        break;
+
     default:
         echo "404 - Page Not Found";
         break;
