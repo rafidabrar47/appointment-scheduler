@@ -11,7 +11,26 @@ class Appointment {
         $this->conn = $database->getConnection();
     }
 
-// Update Appointment Status
+    // Create new appointment
+    public function bookAppointment($patient_id, $doctor_id, $date, $time) {
+        $query = "INSERT INTO " . $this->table . " 
+                  (patient_id, doctor_id, appointment_date, appointment_time, status) 
+                  VALUES (:pid, :did, :date, :time, 'pending')";
+        
+        $stmt = $this->conn->prepare($query);
+        
+        $stmt->bindParam(':pid', $patient_id);
+        $stmt->bindParam(':did', $doctor_id);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':time', $time);
+
+        if($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    // Update Appointment Status
     public function updateStatus($appointment_id, $status) {
         $query = "UPDATE " . $this->table . " SET status = :status WHERE appointment_id = :id";
         $stmt = $this->conn->prepare($query);
