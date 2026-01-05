@@ -39,23 +39,47 @@ class User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Register New User (We will need this later)
-    public function register($name, $email, $password, $role) {
-        $query = "INSERT INTO " . $this->table . " (full_name, email, password_hash, role) VALUES (:name, :email, :password, :role)";
-        $stmt = $this->conn->prepare($query);
-        
-        // Secure Hash
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    public function register($name, $email, $password, $role, $specialization = null) {
+        // 1. Determine Approval Status (Doctors = 0, Patients = 1)
+        $is_approved = ($role === 'doctor') ? 0 : 1;
 
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $hashed_password);
-        $stmt->bindParam(':role', $role);
+        try {
+            // Start Transaction (So we don't create half-users)
+            $this->conn->beginTransaction();
 
-        if($stmt->execute()) {
+            // 2. Insert into USERS table
+            $query = "INSERT INTO " . $this->table . " (full_name, email, password_hash, role, is_approved) 
+                      VALUES (:name, :email, :password, :role, :approved)";
+            $stmt = $this->conn->prepare($query);
+            
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $hashed_password);
+            $stmt->bindParam(':role', $role);
+            $stmt->bindParam(':approved', $is_approved);
+            
+            $stmt->execute();
+            $new_user_id = $this->conn->lastInsertId(); // Get the ID of the user we just made
+
+            // 3. If Doctor, insert into DOCTOR_PROFILES too
+            if ($role === 'doctor' && !empty($specialization)) {
+                $queryProfile = "INSERT INTO doctor_profiles (user_id, specialization) VALUES (:uid, :spec)";
+                $stmtProfile = $this->conn->prepare($queryProfile);
+                $stmtProfile->bindParam(':uid', $new_user_id);
+                $stmtProfile->bindParam(':spec', $specialization);
+                $stmtProfile->execute();
+            }
+
+            // Commit changes
+            $this->conn->commit();
             return true;
+
+        } catch (Exception $e) {
+            $this->conn->rollBack(); // Undo if something failed
+            return false;
         }
-        return false;
     }
 }
 ?>

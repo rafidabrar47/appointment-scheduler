@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-
     <div class="auth-container">
         <div class="auth-header">
             <h2>Create Account</h2>
@@ -14,7 +13,6 @@
         </div>
 
         <form action="index.php?action=register_submit" method="POST">
-            
             <div class="form-group">
                 <label>Full Name</label>
                 <input type="text" name="name" class="form-control" placeholder="John Doe" required>
@@ -32,9 +30,20 @@
 
             <div class="form-group">
                 <label>I am a...</label>
-                <select name="role" class="form-control" required>
+                <select name="role" id="roleSelect" class="form-control" required onchange="toggleSpecialization()">
                     <option value="patient">Patient</option>
                     <option value="doctor">Doctor</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="specDiv" style="display:none;">
+                <label>Specialization</label>
+                <select name="specialization" class="form-control">
+                    <option value="General Physician">General Physician</option>
+                    <option value="Cardiologist">Cardiologist</option>
+                    <option value="Dermatologist">Dermatologist</option>
+                    <option value="Neurologist">Neurologist</option>
+                    <option value="Orthopedic">Orthopedic</option>
                 </select>
             </div>
 
@@ -46,5 +55,16 @@
         </div>
     </div>
 
+    <script>
+        function toggleSpecialization() {
+            var role = document.getElementById("roleSelect").value;
+            var specDiv = document.getElementById("specDiv");
+            if(role === "doctor") {
+                specDiv.style.display = "block";
+            } else {
+                specDiv.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
