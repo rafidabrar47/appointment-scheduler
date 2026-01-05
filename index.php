@@ -111,6 +111,12 @@ switch ($action) {
         $apptController->book();
         break;
 
+    case 'register_submit':
+        require_once 'controllers/AuthController.php';
+        $auth = new AuthController();
+        $auth->register();
+        break;    
+
     default:
         echo "404 - Page Not Found";
         break;
