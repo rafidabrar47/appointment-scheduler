@@ -76,6 +76,49 @@ class User {
         return $stmt->execute();
     }
 
+    // Get single user data (for editing)
+    public function getUserById($user_id) {
+        $query = "SELECT u.*, p.specialization 
+                  FROM " . $this->table . " u 
+                  LEFT JOIN doctor_profiles p ON u.user_id = p.user_id 
+                  WHERE u.user_id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $user_id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Get All Patients
+    public function getAllPatients() {
+        $query = "SELECT * FROM " . $this->table . " WHERE role = 'patient'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Update User Info
+    public function updateUser($user_id, $name, $email, $role, $specialization = null) {
+        $query = "UPDATE " . $this->table . " SET full_name = :name, email = :email WHERE user_id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':name' => $name, ':email' => $email, ':id' => $user_id]);
+
+        // If Doctor, update specialization
+        if ($role === 'doctor' && $specialization) {
+            $queryProf = "UPDATE doctor_profiles SET specialization = :spec WHERE user_id = :id";
+            $stmtProf = $this->conn->prepare($queryProf);
+            $stmtProf->execute([':spec' => $specialization, ':id' => $user_id]);
+        }
+        return true;
+    }
+
+    // Delete User (Already handled by updateStatus('reject'), but let's be explicit)
+    public function deleteUser($user_id) {
+        $query = "DELETE FROM " . $this->table . " WHERE user_id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $user_id);
+        return $stmt->execute();
+    }
+
     public function register($name, $email, $password, $role, $specialization = null) {
         // 1. Determine Approval Status (Doctors = 0, Patients = 1)
         $is_approved = ($role === 'doctor') ? 0 : 1;
