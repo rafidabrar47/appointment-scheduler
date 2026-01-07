@@ -115,7 +115,20 @@ switch ($action) {
         require_once 'controllers/AuthController.php';
         $auth = new AuthController();
         $auth->register();
-        break;    
+        break;  
+        
+        // --- Admin Routes ---
+    case 'dashboard_admin':
+        require_once 'controllers/AdminController.php';
+        $admin = new AdminController();
+        $admin->dashboard();
+        break;
+
+    case 'admin_approval':
+        require_once 'controllers/AdminController.php';
+        $admin = new AdminController();
+        $admin->handleApproval();
+        break;
 
     default:
         echo "404 - Page Not Found";
