@@ -130,6 +130,26 @@ switch ($action) {
         $admin->handleApproval();
         break;
 
+    case 'admin_doctors':
+        require_once 'controllers/AdminController.php';
+        (new AdminController())->listDoctors();
+        break;
+
+    case 'admin_patients':
+        require_once 'controllers/AdminController.php';
+        (new AdminController())->listPatients();
+        break;
+
+    case 'admin_user_form':
+        require_once 'controllers/AdminController.php';
+        (new AdminController())->manageUser();
+        break;
+
+    case 'admin_delete_user':
+        require_once 'controllers/AdminController.php';
+        (new AdminController())->deleteUser();
+        break;
+
     default:
         echo "404 - Page Not Found";
         break;
