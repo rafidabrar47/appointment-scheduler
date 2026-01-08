@@ -25,6 +25,9 @@
                 <label>Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
             </div>
+            <div style="text-align: right; margin-bottom: 15px;">
+             <a href="index.php?action=reset_password" style="font-size: 0.9rem;">Forgot Password?</a>
+            </div>
 
             <button type="submit" class="btn-primary">Login</button>
         </form>

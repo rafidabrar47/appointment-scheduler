@@ -150,6 +150,24 @@ switch ($action) {
         (new AdminController())->deleteUser();
         break;
 
+    // 1. Password Reset Routes
+    case 'reset_password':
+        include 'views/reset_password.php';
+        break;
+        
+    case 'reset_password_submit':
+        require_once 'controllers/AuthController.php';
+        $auth = new AuthController();
+        $auth->resetPassword();
+        break;
+
+    // 2. New API Route for Dates
+    case 'api_get_dates':
+        require_once 'controllers/AjaxController.php';
+        $ajax = new AjaxController();
+        $ajax->getDates();
+        break;
+
     default:
         echo "404 - Page Not Found";
         break;
