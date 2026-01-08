@@ -47,12 +47,32 @@ class AuthController {
         }
     }
 
+    // --- Add this to controllers/AuthController.php ---
+    public function resetPassword() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'];
+            $new_password = $_POST['new_password'];
+            
+            // Hash the new password
+            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+            $userModel = new User();
+            if ($userModel->updatePasswordByEmail($email, $hashed_password)) {
+                echo "<script>alert('Success! Password updated. Please login.'); window.location.href='index.php?action=login';</script>";
+            } else {
+                echo "<script>alert('Error: Email address not found.'); window.location.href='index.php?action=reset_password';</script>";
+            }
+        }
+    }
+
     public function register() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = $_POST['name'];
         $email = $_POST['email'];
         $password = $_POST['password'];
         $role = $_POST['role'];
+
+        
 
         // Get specialization if it exists (only for doctors)
         $specialization = isset($_POST['specialization']) ? $_POST['specialization'] : null;

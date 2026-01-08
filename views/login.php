@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Appointment Scheduler</title>
+    <title>Login - TechSpace</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -11,7 +10,7 @@
     <div class="auth-container">
         <div class="auth-header">
             <h2>Welcome Back</h2>
-            <p>Please login to your account</p>
+            <p>Login to your account</p>
         </div>
 
         <form action="index.php?action=login_submit" method="POST">
@@ -24,6 +23,10 @@
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+            </div>
+
+            <div style="text-align: right; margin-bottom: 15px;">
+                <a href="index.php?action=reset_password" style="font-size: 0.9rem; color: #007bff; text-decoration: none;">Forgot Password?</a>
             </div>
 
             <button type="submit" class="btn-primary">Login</button>
