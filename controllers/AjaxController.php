@@ -40,5 +40,23 @@ class AjaxController {
         // 4. Return JSON
         echo json_encode($freeSlots);
     }
+
+    public function getDates() {
+        if(!isset($_GET['doctor_id'])) return;
+
+        $doctor_id = $_GET['doctor_id'];
+        
+        // Fetch only dates where doctor works AND date is today or future
+        $query = "SELECT DISTINCT available_date FROM availability 
+                  WHERE doctor_id = :did AND available_date >= CURDATE() 
+                  ORDER BY available_date ASC";
+        
+        $stmt = $this->db->prepare($query);
+        $stmt->execute([':did' => $doctor_id]);
+        
+        $dates = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        
+        echo json_encode($dates);
+    }
 }
 ?>

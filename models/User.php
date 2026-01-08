@@ -161,5 +161,25 @@ class User {
             return false;
         }
     }
+
+    public function updatePasswordByEmail($email, $hashed_password) {
+        // Check if email exists first
+        $checkQuery = "SELECT user_id FROM " . $this->table . " WHERE email = :email";
+        $stmtCheck = $this->conn->prepare($checkQuery);
+        $stmtCheck->bindParam(':email', $email);
+        $stmtCheck->execute();
+
+        if ($stmtCheck->rowCount() == 0) {
+            return false; // Email not found
+        }
+
+        // Update password
+        $query = "UPDATE " . $this->table . " SET password_hash = :pass WHERE email = :email";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':pass', $hashed_password);
+        $stmt->bindParam(':email', $email);
+        
+        return $stmt->execute();
+    }
 }
 ?>

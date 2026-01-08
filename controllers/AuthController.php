@@ -69,5 +69,22 @@ class AuthController {
         }
     }
 }
+
+    public function resetPassword() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = $_POST['email'];
+            $new_password = $_POST['new_password'];
+            
+            // Hash the new password
+            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+            $userModel = new User();
+            if ($userModel->updatePasswordByEmail($email, $hashed_password)) {
+                echo "<script>alert('Success! Password updated. Please login.'); window.location.href='index.php?action=login';</script>";
+            } else {
+                echo "<script>alert('Error: Email address not found.'); window.location.href='index.php?action=reset_password';</script>";
+            }
+        }
+    }
 }
 ?>
