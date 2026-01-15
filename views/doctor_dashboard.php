@@ -13,8 +13,7 @@
             <h3>Doctor Panel</h3>
             <a href="#" class="active">Dashboard</a>
             <a href="index.php?action=doctor_availability">My Schedule</a>
-            <a href="#">Appointments</a>
-            <a href="#">Patients</a>
+            <a href="index.php?action=profile">My Profile</a>
             <a href="index.php?action=logout" class="logout-btn">Logout</a>
         </div>
 

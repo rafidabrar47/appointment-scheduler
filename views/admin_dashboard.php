@@ -32,6 +32,7 @@
             <a href="index.php?action=admin_doctors">Doctors List</a>
             <a href="index.php?action=admin_patients">Patients List</a>
             <a href="index.php?action=admin_user_form&role=admin">Add Admin</a>
+            <a href="index.php?action=profile">My Profile</a>
             <a href="index.php?action=logout" class="logout-btn">Logout</a>
         </div>
 
