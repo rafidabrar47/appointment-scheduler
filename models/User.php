@@ -181,5 +181,38 @@ class User {
         
         return $stmt->execute();
     }
+
+    // Update Profile Info
+    public function updateProfile($user_id, $name, $email, $new_password = null) {
+        if (!empty($new_password)) {
+            // Update WITH Password
+            $query = "UPDATE " . $this->table . " SET full_name = :name, email = :email, password_hash = :pass WHERE user_id = :id";
+            $stmt = $this->conn->prepare($query);
+            $hashed = password_hash($new_password, PASSWORD_DEFAULT);
+            $stmt->bindParam(':pass', $hashed);
+        } else {
+            // Update WITHOUT Password
+            $query = "UPDATE " . $this->table . " SET full_name = :name, email = :email WHERE user_id = :id";
+            $stmt = $this->conn->prepare($query);
+        }
+
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':id', $user_id);
+
+        return $stmt->execute();
+    }
+
+    // Check if email exists for ANY OTHER user (excluding the current one)
+    public function isEmailTaken($email, $current_user_id) {
+        $query = "SELECT user_id FROM " . $this->table . " WHERE email = :email AND user_id != :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':id', $current_user_id);
+        $stmt->execute();
+        
+        // If we find a row, it means someone else has this email
+        return $stmt->rowCount() > 0;
+    }
 }
 ?>

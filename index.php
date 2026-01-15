@@ -168,6 +168,19 @@ switch ($action) {
         $ajax->getDates();
         break;
 
+    // --- Profile Routes ---
+    case 'profile':
+        require_once 'controllers/ProfileController.php';
+        $profile = new ProfileController();
+        $profile->index();
+        break;
+
+    case 'profile_submit':
+        require_once 'controllers/ProfileController.php';
+        $profile = new ProfileController();
+        $profile->update();
+        break;
+
     default:
         echo "404 - Page Not Found";
         break;

@@ -11,9 +11,8 @@
     <div class="dashboard-container">
         <div class="sidebar">
             <h3>Patient Panel</h3>
-            <a href="#" class="active">My Appointments</a>
             <a href="index.php?action=book_appointment">Book New</a>
-            <a href="#">Medical Records</a>
+            <a href="index.php?action=profile">My Profile</a>
             <a href="index.php?action=logout" class="logout-btn">Logout</a>
         </div>
 
