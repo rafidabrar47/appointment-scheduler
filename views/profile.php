@@ -3,47 +3,66 @@
 <head>
     <title>Edit Profile - TechSpace</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .dashboard-form-container {
+            max-width: 600px;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+    </style>
 </head>
 <body>
-    <div class="auth-container" style="max-width: 500px;">
-        <div class="auth-header">
-            <h2>Edit Profile</h2>
-            <p>Update your personal information</p>
+    <style>body { display: block; }</style> 
+
+    <div class="dashboard-container">
+        
+        <div class="sidebar">
+            <?php if ($_SESSION['role'] === 'admin'): ?>
+                <h3>Admin Panel</h3>
+                <a href="index.php?action=dashboard_admin">Overview</a>
+                <a href="index.php?action=admin_doctors">Doctors List</a>
+                <a href="index.php?action=admin_patients">Patients List</a>
+            <?php elseif ($_SESSION['role'] === 'doctor'): ?>
+                <h3>Doctor Panel</h3>
+                <a href="index.php?action=dashboard_doctor">Appointments</a>
+                <a href="index.php?action=doctor_availability">My Schedule</a>
+            <?php else: ?>
+                <h3>Patient Panel</h3>
+                <a href="index.php?action=dashboard_patient">My Appointments</a>
+                <a href="index.php?action=dashboard_patient&view=book">Book New</a>
+            <?php endif; ?>
+            
+            <a href="index.php?action=profile" class="active">My Profile</a>
+            <a href="index.php?action=logout" class="logout-btn">Logout</a>
         </div>
 
-        <form action="index.php?action=profile_submit" method="POST">
-            
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" name="name" class="form-control" value="<?php echo htmlspecialchars($user['full_name']); ?>" required>
-            </div>
+        <div class="main-content">
+            <h2 class="section-title">Edit Profile</h2>
 
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($user['email']); ?>" required>
-            </div>
+            <div class="dashboard-form-container">
+                <form action="index.php?action=profile_submit" method="POST">
+                    
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" class="form-control" value="<?php echo htmlspecialchars($user['full_name']); ?>" required>
+                    </div>
 
-            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($user['email']); ?>" required>
+                    </div>
 
-            <div class="form-group">
-                <label>New Password <small>(Leave blank to keep current)</small></label>
-                <input type="password" name="password" class="form-control" placeholder="••••••">
-            </div>
+                    <div class="form-group">
+                        <label>New Password <small>(Leave blank to keep current)</small></label>
+                        <input type="password" name="password" class="form-control" placeholder="••••••">
+                    </div>
 
-            <button type="submit" class="btn-primary">Save Changes</button>
-            
-            <div class="auth-footer">
-                <?php
-                    // Determine where the "Back" button goes based on role
-                    $role = $_SESSION['role'];
-                    $dashboardLink = 'index.php?action=login'; // Default
-                    if ($role == 'admin') $dashboardLink = 'index.php?action=dashboard_admin';
-                    if ($role == 'doctor') $dashboardLink = 'index.php?action=dashboard_doctor';
-                    if ($role == 'patient') $dashboardLink = 'index.php?action=dashboard_patient';
-                ?>
-                <a href="<?php echo $dashboardLink; ?>">Back to Dashboard</a>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </body>
 </html>
