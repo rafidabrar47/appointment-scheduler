@@ -11,7 +11,7 @@
     <div class="dashboard-container">
         <div class="sidebar">
             <h3>Doctor Panel</h3>
-            <a href="#" class="active">Dashboard</a>
+            <a href="#" class="active">Appointments</a>
             <a href="index.php?action=doctor_availability">My Schedule</a>
             <a href="index.php?action=profile">My Profile</a>
             <a href="index.php?action=logout" class="logout-btn">Logout</a>
@@ -24,7 +24,7 @@
                 <p>You have <strong><?php echo $pendingCount; ?></strong> pending appointments.</p>
             </div>
 
-            <h3 class="section-title">Today's Schedule</h3>
+            <h3 class="section-title">Your Schedule</h3>
             <table class="data-table">
                 <thead>
                     <tr>
@@ -66,15 +66,6 @@
                     <?php endif; ?>
                 </tbody>
             </table>
-
-            <br><br>
-
-            <h3 class="section-title">Update Availability</h3>
-            <div style="background:white; padding:1rem; border-radius:8px;">
-                <label>Set Available Date:</label>
-                <input type="date" style="padding:5px;">
-                <button class="btn-primary" style="width:auto; margin-top:0;">Add Slot</button>
-            </div>
         </div>
     </div>
 </body>
