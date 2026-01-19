@@ -41,7 +41,7 @@ class AdminController {
     public function listDoctors() {
         $this->checkAdmin(); // Helper method below
         $userModel = new User();
-        $doctors = $userModel->getAllDoctors(); // You wrote this in T-10
+        $doctors = $userModel->getAllDoctors();
         include 'views/admin_doctors.php';
     }
 

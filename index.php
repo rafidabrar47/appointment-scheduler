@@ -27,10 +27,10 @@ switch ($action) {
         require_once 'models/Appointment.php';
         $apptModel = new Appointment();
         
-        // 1. Get the list of appointments (You already have this)
+        // 1. Get the list of appointments
         $appointments = $apptModel->getAppointmentsByDoctor($_SESSION['user_id']);
         
-        // 2. Get the specific count of PENDING ones (NEW LINE)
+        // 2. Get the specific count of PENDING ones
         $pendingCount = $apptModel->countPending($_SESSION['user_id']);
 
         include 'views/doctor_dashboard.php';
@@ -46,8 +46,6 @@ switch ($action) {
     $myAppointments = $apptModel->getAppointmentsByPatient($_SESSION['user_id']);
     include 'views/patient_dashboard.php';
     break;
-
-    // --- Add these inside the switch($action) block ---
 
     case 'doctor_availability':
         if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'doctor') {

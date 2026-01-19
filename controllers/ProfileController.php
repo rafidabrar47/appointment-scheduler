@@ -18,8 +18,7 @@ class ProfileController {
         include 'views/profile.php';
     }
 
-    // 2. Handle the Update
-    // --- Replace the update() function in controllers/ProfileController.php ---
+    // 2. Handle the Update Profile Form Submission
 
     public function update() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

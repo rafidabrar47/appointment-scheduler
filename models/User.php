@@ -30,7 +30,6 @@ class User {
 
     // Get list of all doctors with their specialization
    public function getAllDoctors() {
-        // I added 'u.email' to this line below
         $query = "SELECT u.user_id, u.full_name, u.email, p.specialization 
                   FROM users u 
                   JOIN doctor_profiles p ON u.user_id = p.user_id 
@@ -68,7 +67,7 @@ class User {
         if ($status === 'approve') {
             $query = "UPDATE " . $this->table . " SET is_approved = 1 WHERE user_id = :id";
         } else {
-            // If rejected, we delete the user entirely so they can sign up again if needed
+            // If rejected, delete the user entirely so they can sign up again if needed
             $query = "DELETE FROM " . $this->table . " WHERE user_id = :id";
         }
         
@@ -112,7 +111,7 @@ class User {
         return true;
     }
 
-    // Delete User (Already handled by updateStatus('reject'), but let's be explicit)
+    // Delete User
     public function deleteUser($user_id) {
         $query = "DELETE FROM " . $this->table . " WHERE user_id = :id";
         $stmt = $this->conn->prepare($query);
@@ -125,7 +124,7 @@ class User {
         $is_approved = ($role === 'doctor') ? 0 : 1;
 
         try {
-            // Start Transaction (So we don't create half-users)
+            // Start Transaction
             $this->conn->beginTransaction();
 
             // 2. Insert into USERS table
@@ -142,7 +141,7 @@ class User {
             $stmt->bindParam(':approved', $is_approved);
             
             $stmt->execute();
-            $new_user_id = $this->conn->lastInsertId(); // Get the ID of the user we just made
+            $new_user_id = $this->conn->lastInsertId(); // Get the ID of the user just created
 
             // 3. If Doctor, insert into DOCTOR_PROFILES too
             if ($role === 'doctor' && !empty($specialization)) {
