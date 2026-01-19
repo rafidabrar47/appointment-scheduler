@@ -32,6 +32,7 @@
                 <h3>Patient Panel</h3>
                 <a href="index.php?action=dashboard_patient">My Appointments</a>
                 <a href="index.php?action=book_appointment">Book New</a>
+                <a href="index.php?action=dashboard_patient&view=book">Book New</a>
             <?php endif; ?>
             
             <a href="index.php?action=profile" class="active">My Profile</a>
