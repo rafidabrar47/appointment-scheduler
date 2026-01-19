@@ -59,7 +59,6 @@
                     </div>
 
                     <button type="submit" class="btn-primary">Confirm Booking</button>
-                    <a href="index.php?action=dashboard_patient" style="margin-left: 15px;">Cancel</a>
                 </form>
             </div>
         </div>

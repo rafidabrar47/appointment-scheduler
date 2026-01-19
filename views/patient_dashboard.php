@@ -11,6 +11,7 @@
     <div class="dashboard-container">
         <div class="sidebar">
             <h3>Patient Panel</h3>
+            <a href="#" class="active">My Appointments</a>
             <a href="index.php?action=book_appointment">Book New</a>
             <a href="index.php?action=profile">My Profile</a>
             <a href="index.php?action=logout" class="logout-btn">Logout</a>
@@ -20,10 +21,6 @@
             <div class="welcome-banner">
                 <h2>Welcome, <?php echo $_SESSION['name']; ?>!</h2>
                 <p>Track your health journey here.</p>
-            </div>
-
-            <div style="margin-bottom: 2rem;">
-                <button class="btn-primary" style="width: auto;" onclick="window.location.href='index.php?action=book_appointment'">+ Book New Appointment</button>
             </div>
 
             <h3 class="section-title">My Appointments</h3>

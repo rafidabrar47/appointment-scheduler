@@ -29,8 +29,9 @@ class User {
     }
 
     // Get list of all doctors with their specialization
-    public function getAllDoctors() {
-        $query = "SELECT u.user_id, u.full_name, p.specialization 
+   public function getAllDoctors() {
+        // I added 'u.email' to this line below
+        $query = "SELECT u.user_id, u.full_name, u.email, p.specialization 
                   FROM users u 
                   JOIN doctor_profiles p ON u.user_id = p.user_id 
                   WHERE u.role = 'doctor'";
